@@ -1,0 +1,31 @@
+{
+  "step1": {
+    "duration_seconds": 74.4107029478458,
+    "sample_rate_hz": 22050,
+    "rms_energy": 0.10877446830272675,
+    "silence_ratio": 0.4962992669232963,
+    "estimated_wpm": 65.48109529997149,
+    "preprocessing": [
+      "resampled_22kHz",
+      "mono"
+    ]
+  },
+  "step2": {
+    "pause_count": 0,
+    "avg_pause_ms": 300.0,
+    "speaking_rate_wps": 1.0913515883328582
+  },
+  "step3": {
+    "mean_freq_hz": 1486.7632666574018,
+    "freq_range_hz": 1018.5718665430798,
+    "pitch_estimate": "medium"
+  },
+  "step4": {
+    "primary_emotion": "neutral",
+    "energy_level": 0.07586977630853653,
+    "confidence": 0.75
+  },
+  "user_id": "candidate_001",
+  "created": "2025-12-05T15:01:33.459709",
+  "profile_version": "1.0"
+}
