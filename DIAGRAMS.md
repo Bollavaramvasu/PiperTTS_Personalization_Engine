@@ -1,6 +1,6 @@
-# Piper TTS Diagrams
+Piper TTS Diagrams
 
-## Architecture Diagram
+Architecture Diagram
 ┌─────────────────┐ ┌──────────────────────┐
 │ User Audio │───▶│ Audio Preprocessor │
 │ (WAV) │ │ (librosa 22kHz) │
@@ -35,7 +35,7 @@
 │ Personalized Speech │
 │ Output WAV │
 └──────────────────────┘
-## Data Flow Diagram (DFD)
+Data Flow Diagram (DFD)
 Level 0 DFD - Piper TTS Personalization System
 
 +---------------+ +---------------------+ +-------------------+
@@ -49,7 +49,7 @@ Level 0 DFD - Piper TTS Personalization System
 │ voice_profile │
 │ .json │
 +----------------+
-## Sequence Diagram
+Sequence Diagram
 User Engine Profile Piper TTS
 │ │ │ │
 │ Upload Audio │ │ │
