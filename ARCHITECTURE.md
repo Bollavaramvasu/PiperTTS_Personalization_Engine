@@ -44,11 +44,16 @@ Runtime: Load JSON → Adjust Piper params → Generate speech
 
 ## Technical Specifications
 Voice Model: en_US-amy-medium.onnx (15MB)
+
 Sample Rate: 22,050 Hz
+
 Format: WAV mono
+
 Piper Version: v1.2.0
+
 Environment: Google Colab CPU
+
 Dependencies: librosa, numpy
 
 
-**See DIAGRAMS.md for visual architecture.**
+
