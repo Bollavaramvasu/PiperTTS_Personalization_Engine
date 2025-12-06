@@ -6,3 +6,6 @@ Timestamp,Phase,Duration_ms,Memory_MB,CPU_Usage,Status
 2025-12-06T10:13:49,Profile_Create,90,2.5,5%,SUCCESS
 2025-12-06T10:13:50,Synthesis,710,120.4,89%,SUCCESS
 TOTAL,Pipeline,2840,200,-
+# Piper TTS Performance Log - 2025-12-06
+Timestamp,Phase,Duration_s,Memory_MB,Status
+10:13:46,Audio_Load,0
