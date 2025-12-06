@@ -1,76 +1,55 @@
-# Piper TTS Personalization Diagrams
+# 🎙️ Piper TTS Personalization Diagrams
 
-## Architecture Diagram
-┌────────────────────┐
-│ User Audio │
-│ (WAV/MP3) │
-└──────────┬─────────┘
-│
-▼
-┌────────────────────┐
-│ Audio Preprocessor │
-│ librosa 22kHz │
-└──────────┬─────────┘
-│
-▼
-┌────────────────────┐
-│ Feature Extractor │
-│ Pauses/WPM/Pitch │
-└──────────┬─────────┘
-│
-▼
-┌────────────────────┐
-│ Voice Profile JSON │
-│ profile.json 2.5KB │
-└──────────┬─────────┘
-│
-▼
-┌────────────────────┐
-│ Synthesis Adapter │
-│ Piper + Params │
-└──────────┬─────────┘
-│
-▼
-┌────────────────────┐
-│ Personalized WAV │
-│ output.wav 100KB │
-└────────────────────┘
+## 🧩 Architecture Diagram
+flowchart TD
+A[User Audio
+(WAV/MP3)] --> B[Audio Preprocessor
+librosa 22kHz]
+B --> C[Feature Extractor
+Pauses / WPM / Pitch]
+C --> D[Voice Profile JSON
+profile.json (2.5KB)]
+D --> E[Synthesis Adapter
+Piper + Parameters]
+E --> F[Personalized WAV
+output.wav (100KB)]
 
+---
 
-## Data Flow Diagram
-Level 0 - Context Diagram
-+----------+ +---------------------+ +----------+
-| User |────▶| Personalization |────▶| Output |
-| (Audio) | | Engine (2.8s) | | (Speech) |
-+----------+ +----------+----------+ +----------+
-│
-+--------+--------+
-│ JSON Profile │
-│ 2.5KB Storage │
-+----------------+
+## 🌐 Data Flow Diagram (Level 0 - Context)
+flowchart LR
+U[User
+(Audio Input)] -->|2.8s Processing| P[Personalization Engine]
+P --> O[Output
+(Personalized Speech)]
+P --> J[JSON Profile
+2.5KB Storage]
 
+---
 
-## Component Interaction
-┌─────────────┐ ┌──────────────────┐ ┌─────────────┐
-│ Preprocess │───▶│ Feature Analysis │───▶│ Profile Mgr │
-│ 22kHz mono │ │ Pauses/Energy │ │ JSON Export │
-└─────────────┘ └──────────────────┘ └─────────────┘
-│ │ │
-└────────────────────┼────────────────────┘
-│
-┌──────┴──────┐
-│ Piper TTS │
-│ + Adapter │
-└─────────────┘
+## ⚙️ Component Interaction
+flowchart TD
+A[Preprocess
+22kHz Mono] --> B[Feature Analysis
+Pauses / Energy]
+B --> C[Profile Manager
+JSON Export]
 
+A -.->|Shared Data| D[Piper TTS + Adapter]
+B -.->|Shared Data| D
+C -.->|Profile Import| D
+---
 
-## Sequence Flow
-User ──Upload───▶ Engine ──Preprocess───▶ Profile
-│ │
-│───Features───────▶ Store JSON
-│ │
-"Hello World"────▶ │───Load Profile───▶ Piper TTS
-│ │
-◀───Personalized WAV───◀
+## 🔁 Sequence Flow
+sequenceDiagram
+participant User
+participant Engine
+participant Profile
+participant Piper
 
-undefined
+User ->> Engine: Upload Audio File
+Engine ->> Profile: Preprocess & Extract Features
+Profile ->> Profile: Store Profile (profile.json)
+User ->> Piper: Text Input ("Hello World")
+Piper ->> Profile: Load Voice Profile
+Piper ->> User: Return Personalized WAV Output
