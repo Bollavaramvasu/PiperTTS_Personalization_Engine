@@ -36,7 +36,6 @@
 │ output.wav 100KB │
 └────────────────────┘
 
-text
 
 ## Data Flow Diagram
 Level 0 - Context Diagram
@@ -50,7 +49,6 @@ Level 0 - Context Diagram
 │ 2.5KB Storage │
 +----------------+
 
-text
 
 ## Component Interaction
 ┌─────────────┐ ┌──────────────────┐ ┌─────────────┐
@@ -65,7 +63,6 @@ text
 │ + Adapter │
 └─────────────┘
 
-text
 
 ## Sequence Flow
 User ──Upload───▶ Engine ──Preprocess───▶ Profile
@@ -76,5 +73,4 @@ User ──Upload───▶ Engine ──Preprocess───▶ Profile
 │ │
 ◀───Personalized WAV───◀
 
-text
 undefined
