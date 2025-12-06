@@ -20,10 +20,15 @@ Text + Emotion ──► Load Profile ──► Piper TTS ──► Personalized
 
 ## Performance Data (From task2_logs.txt)
 Audio Input: 124.3 seconds
+
 Processing Time: 2.84 seconds
+
 Features Extracted: 12 metrics
+
 Profile Size: 2.5KB JSON
+
 Synthesis Latency: 710ms
+
 Memory Peak: 150MB
 
 
