@@ -1,74 +1,49 @@
-# Piper TTS Personalization Engine Architecture
+# Piper TTS Personalization Architecture
 
-## System Overview
-The system extends Piper TTS with user-specific voice learning capabilities through a 5-stage pipeline.
+## System Components (5 Modules)
 
-## High-Level Architecture
+| Module | Input | Output | Tech Stack |
+|--------|-------|--------|------------|
+| **1. Audio Preprocessor** | WAV/MP3 | 22kHz PCM | librosa |
+| **2. Feature Extractor** | Audio | 12 metrics | librosa.feature |
+| **3. Pattern Learner** | Features | Statistics | numpy |
+| **4. Profile Manager** | Stats | JSON | Python json |
+| **5. Synthesis Adapter** | Text+Profile | WAV | Piper TTS |
 
-┌─────────────────────────────────────────────────────────────┐
-│ PERSONALIZATION ENGINE │
-├─────────────────┬─────────────────┬─────────────────────────┤
-│ 1. Preprocessor │ 2. Extractor │ 3. Learner │
-│ WAV → 22kHz │ Pauses/WPM │ Statistics │
-│ librosa │ librosa.feature │ numpy │
-└─────────────────┼─────────────────┼─────────────────────────┤
-│ │ │
-▼ ▼ ▼
-┌─────────────────┴─────────────────┴─────────────────────────┐
-│ VOICE PROFILE (JSON) │
-│ duration: 124s, wpm: 132, pitch: 1487Hz, emotion: neutral │
-└─────────────────────────────────────────────────────────────┘
-│
-▼
-┌─────────────────────────────────────────────────────────────┐
-│ SYNTHESIS ADAPTER │
-│ Piper TTS + Profile Parameters → Personalized WAV │
-└─────────────────────────────────────────────────────────────┘
-## Component Specifications
+## Integration Pipeline
+Phase 1: Training (2.8s total)
+User Audio ──► Preprocess ──► Extract ──► Learn ──► JSON Profile
 
-### 1. Audio Preprocessor
-**Input:** User audio (WAV/MP3, 1-5min)  
-**Output:** 22kHz mono PCM  
-**Parameters:**  
-- Sample rate: 22050 Hz  
-- Normalization: RMS -20dBFS  
-- Silence threshold: -40dB  
+Phase 2: Inference (0.7s)
+Text + Emotion ──► Load Profile ──► Piper TTS ──► Personalized WAV
 
-### 2. Feature Extractor
-**Features Extracted:**
-| Feature | Method | Purpose |
-|---------|--------|---------|
-| Speaking Rate | Silence ratio | WPM estimation |
-| Pause Duration | Energy frames | Rhythm modeling |
-| Spectral Centroid | librosa.feature | Pitch proxy |
-| RMS Energy | librosa.feature.rms | Emotion indicator |
 
-### 3. Pattern Learner
-**Statistical Modeling:**
-- Mean/Std/Percentiles for all features
-- Distribution analysis (pauses, pitch)
-- Emotion classification (3 classes)
+## Performance Data (From task2_logs.txt)
+Audio Input: 124.3 seconds
+Processing Time: 2.84 seconds
+Features Extracted: 12 metrics
+Profile Size: 2.5KB JSON
+Synthesis Latency: 710ms
+Memory Peak: 150MB
 
-## Integration with Piper TTS
 
-Piper TTS Pipeline:
-Text ──► Acoustic Model (.onnx) ──► Waveform (22kHz)
+## Runtime Flow
+User uploads 1-5min voice recording
 
-Extended Pipeline:
-Text ──► [Profile Loader] ──► Acoustic Model ──► [Adapter] ──► Waveform
-JSON Speed/Pause adjust
-## Performance Characteristics
+Engine extracts: WPM=132, pauses=52, pitch=1487Hz, emotion=neutral
 
-| Metric | Value | Notes |
-|--------|-------|-------|
-| Processing Time | 2.8s | CPU (Colab) |
-| Memory Usage | 150MB | Peak during feature extraction |
-| Profile Size | 2.5KB | JSON |
-| Inference Latency | 700ms | Real-time capable |
-| Audio Requirement | ≥60s | Statistical reliability |
+Creates personalized_voice_profile.json
 
-## Runtime Environment
-- Runtime: Google Colab (CPU)
-- Dependencies: librosa, numpy, Piper v1.2.0
-- Voice Model: en_US-amy-medium.onnx (15MB)
-- Output Format: WAV 22kHz mono
+Runtime: Load JSON → Adjust Piper params → Generate speech
+
+
+## Technical Specifications
+Voice Model: en_US-amy-medium.onnx (15MB)
+Sample Rate: 22,050 Hz
+Format: WAV mono
+Piper Version: v1.2.0
+Environment: Google Colab CPU
+Dependencies: librosa, numpy
+
+
+**See DIAGRAMS.md for visual architecture.**
