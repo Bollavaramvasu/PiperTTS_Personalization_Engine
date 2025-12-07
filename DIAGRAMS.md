@@ -1,6 +1,6 @@
-# 🎙️ Piper TTS Personalization Diagrams
+#  Piper TTS Personalization Diagrams
 
-## 🧩 Architecture Diagram
+##  Architecture Diagram
 flowchart TD
 A[User Audio
 (WAV/MP3)] --> B[Audio Preprocessor
@@ -16,7 +16,7 @@ output.wav (100KB)]
 
 ---
 
-## 🌐 Data Flow Diagram (Level 0 - Context)
+##  Data Flow Diagram (Level 0 - Context)
 flowchart LR
 U[User
 (Audio Input)] -->|2.8s Processing| P[Personalization Engine]
@@ -27,7 +27,7 @@ P --> J[JSON Profile
 
 ---
 
-## ⚙️ Component Interaction
+##  Component Interaction
 flowchart TD
 A[Preprocess
 22kHz Mono] --> B[Feature Analysis
@@ -40,7 +40,7 @@ B -.->|Shared Data| D
 C -.->|Profile Import| D
 ---
 
-## 🔁 Sequence Flow
+##  Sequence Flow
 sequenceDiagram
 participant User
 participant Engine
