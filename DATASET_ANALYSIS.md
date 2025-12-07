@@ -9,9 +9,9 @@
 
 Clean data = clear voice. Noisy data = muffled voice.
 
-# 🗣️ TTS Dataset Analysis (Simplified Summary)
+#  TTS Dataset Analysis 
 
-## 📘 Dataset Overview
+##  Dataset Overview
 
 | Dataset Name | Description | Use Case |
 |---------------|--------------|-----------|
@@ -24,7 +24,7 @@ Clean data = clear voice. Noisy data = muffled voice.
 
 ---
 
-## 🎙️ Voice Quality Factors
+##  Voice Quality Factors
 
 - **Clarity:**  
   High SNR (>20 dB) and sample rate (22 kHz+) → crisp, clear audio.
@@ -45,7 +45,7 @@ Clean data = clear voice. Noisy data = muffled voice.
 
 ---
 
-## 🧠 Dataset Selection Tips
+##  Dataset Selection Tips
 
 - Match **language**, **accent**, & **speaker style** to your target voice.  
 - Use **expressive** data for emotional TTS; **neutral** for assistants.  
@@ -56,7 +56,7 @@ Clean data = clear voice. Noisy data = muffled voice.
 
 ---
 
-## ⚙️ Data Preparation Pipeline
+##  Data Preparation Pipeline
 
 1. Clean dataset — remove noise & misalignments.  
 2. Resample audio to 16 kHz / 22.05 kHz.  
@@ -72,7 +72,7 @@ Clean data = clear voice. Noisy data = muffled voice.
 
 ---
 
-## 💡 Key Takeaways
+##  Key Takeaways
 
 - Good **data = good TTS quality**.  
 - **LJSpeech** → natural single voice.  
@@ -82,7 +82,7 @@ Clean data = clear voice. Noisy data = muffled voice.
 
 ---
 
-📁 *Suggested Filename:* `TTS_Dataset_Analysis.md`
+ *Suggested Filename:* `TTS_Dataset_Analysis.md`
 
 
 
