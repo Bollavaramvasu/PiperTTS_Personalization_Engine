@@ -1,18 +1,7 @@
 #  Piper TTS Personalization Diagrams
 
 ##  Architecture Diagram
-flowchart TD
-A[User Audio
-(WAV/MP3)] --> B[Audio Preprocessor
-librosa 22kHz]
-B --> C[Feature Extractor
-Pauses / WPM / Pitch]
-C --> D[Voice Profile JSON
-profile.json (2.5KB)]
-D --> E[Synthesis Adapter
-Piper + Parameters]
-E --> F[Personalized WAV
-output.wav (100KB)]
+ARCHITECTURE.md
 
 ---
 
