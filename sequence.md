@@ -1,16 +1,37 @@
-# Sequence Diagrams
+```mermaid
+%% Training Sequence
+sequenceDiagram
+    autonumber
+    participant User
+    participant Engine
+    participant Preprocessor
+    participant Extractor
+    participant ProfileStore as "Profile Store"
 
-## Training Sequence
-User → Engine → Preprocessor → Extractor → Profile Store
-| | | | |
-Upload | Load | Extract | Save
-audio.wav | audio | features | profile.json
+    User->>Engine: Upload audio.wav
+    Engine->>Preprocessor: Load audio
+    Preprocessor->>Extractor: Extract features
+    Extractor->>ProfileStore: Save profile.json
 
-## Inference Sequence  
-User → Engine → Profile → Piper TTS → Output
-| | Loader | | |
-"Hello" | Load JSON | Adjust | Generate
-|←Profile─────→|←Params──▶|←WAV────▶
+    Note right of ProfileStore: Training = 2.8s
+```
 
+```mermaid
+%% Inference Sequence
+sequenceDiagram
+    autonumber
+    participant User
+    participant Engine
+    participant Profile as "Profile (Loader)"
+    participant PiperTTS as "Piper TTS"
+    participant Output as "Output (WAV)"
 
-**Timings:** Training=2.8s, Inference=0.7s
+    User->>Engine: "Hello"
+    Engine->>Profile: Load JSON
+    Profile-->>Engine: Profile (JSON)
+    Engine->>PiperTTS: Params (adjust)
+    PiperTTS-->>Engine: WAV
+    Engine->>User: WAV
+
+    Note right of Output: Inference = 0.7s
+```
