@@ -82,7 +82,7 @@ Clean data = clear voice. Noisy data = muffled voice.
 
 ---
 
-## Mermaid Diagram (small)
+## Mermaid Diagram
 
 ```mermaid
 flowchart LR
