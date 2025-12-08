@@ -1,3 +1,4 @@
+```mermaid
 flowchart TD
     %% Context Diagram (Level 0)
     subgraph Level0 ["Context Diagram Level 0"]
@@ -20,6 +21,8 @@ flowchart TD
     class User,Speech external
     class Engine,Preprocess,Extract process
     class Profile,Profile1 datastore
+```
+
 # Data Flow Diagrams (DFD)
 
 
