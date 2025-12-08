@@ -82,96 +82,15 @@ Clean data = clear voice. Noisy data = muffled voice.
 
 ---
 
-## Mermaid Diagram (rectangular / large layout)
-
-Below is a redesigned Mermaid diagram that lays out the content in a large rectangular shape (top = datasets, right = pipeline steps stacked, bottom = model & use cases, left = voice quality factors). This creates a square/rectangle flow that is visually larger and avoids a long single line. Paste this into GitHub (file view) or a Mermaid previewer (VSCode/mermaid.live).
+## Mermaid Diagram (small)
 
 ```mermaid
 flowchart LR
-  %% Top row: datasets (left-to-right)
-  subgraph TOP [Datasets]
-    direction LR
-    LJS["LJSpeech\n(24h, single speaker)"]
-    VCTK["VCTK\n(109 speakers)"]
-    Libri["LibriTTS\n(585h, diverse)"]
-    HiFi["Hi‑Fi Multi‑Speaker\n(292h, studio)"]
-    CV["Common Voice\n(Multilingual, crowd)"]
-  end
+  Datasets["Datasets\nLJS / VCTK / LibriTTS / Hi‑Fi / CV"]
+  Prep["Prep\nclean → resample → normalize → align → segment → mel"]
+  Train["Train\nTTS / Encoders / VAE"]
+  Eval["Eval\nmetrics & QA"]
+  Use["Use Cases\nSingle‑speaker / Multi‑speaker / Expressive"]
 
-  %% Right column: preparation pipeline (top-to-bottom)
-  subgraph RIGHT [Data Preparation Pipeline]
-    direction TB
-    P1["1. Clean\n(remove noise & misalignments)"]
-    P2["2. Resample\n(16kHz / 22.05kHz)"]
-    P3["3. Loudness normalize\n(-20 dBFS) & trim silence"]
-    P4["4. Text normalization\n(expand numbers/abbr)"]
-    P5["5. Forced alignment\n(Montreal Forced Aligner)"]
-    P6["6. Segment\n(5–15s clips)"]
-    P7["7. Extract Mel-spectrograms\n(80 bins, 25ms/10ms)"]
-    P8["8. Split\n(Train 90% / Val 5% / Test 5%)"]
-  end
-
-  %% Bottom row: models and use cases (left-to-right)
-  subgraph BOTTOM [Model Training & Use Cases]
-    direction LR
-    MTrain["Train Models\n(TTS, encoders, VAE)"]
-    MEval["Evaluate\n(metrics & QA)"]
-    USingle["Single-speaker TTS\n(voice cloning)"]
-    UMulti["Multi-speaker\n& Accent Transfer"]
-    UExpress["Expressive / Emotional\nTTS"]
-  end
-
-  %% Left column: voice quality factors (top-to-bottom)
-  subgraph LEFT [Voice Quality Factors]
-    direction TB
-    F1["Clarity\n(high SNR, sr>=22kHz)"]
-    F2["Naturalness\n(prosody, intonation)"]
-    F3["Accent\n(dataset source)"]
-    F4["Pitch & Timbre\n(male/female ranges)"]
-    F5["Emotion\n(expressive recordings)"]
-  end
-
-  %% Rectangle connections (flow around a rectangle)
-  TOP -->|feeds into| P1
-  P8 -->|processed data ->| MTrain
-  MTrain --> MEval
-  MEval --> USingle
-  MEval --> UMulti
-  MEval --> UExpress
-  USingle -->|informs| TOP
-  UMulti -->|informs| TOP
-  UExpress -->|informs| TOP
-
-  %% Close rectangle by linking left factors into top datasets and into pipeline
-  LEFT -->|influence| TOP
-  LEFT -->|guide prep| P2
-
-  %% Make visual loop to emphasize rectangular layout
-  TOP -.-> BOTTOM
-  BOTTOM -.-> LEFT
-
-  %% Styling for a larger, bold look
-  classDef topStyle fill:#e8f4ff,stroke:#0366d6,stroke-width:2px,rx:6,ry:6;
-  classDef rightStyle fill:#fff8e6,stroke:#d97706,stroke-width:1.5px,rx:6,ry:6;
-  classDef bottomStyle fill:#ecfff2,stroke:#059669,stroke-width:1.5px,rx:6,ry:6;
-  classDef leftStyle fill:#fff0f6,stroke:#be185d,stroke-width:1.5px,rx:6,ry:6;
-  class TOP topStyle;
-  class RIGHT rightStyle;
-  class BOTTOM bottomStyle;
-  class LEFT leftStyle;
-
-  %% Make nodes larger by grouping and multi-line labels (increases rendered box size)
-  class LJS,VCTK,Libri,HiFi,CV topStyle;
-  class P1,P2,P3,P4,P5,P6,P7,P8 rightStyle;
-  class MTrain,MEval,USingle,UMulti,UExpress bottomStyle;
-  class F1,F2,F3,F4,F5 leftStyle;
+  Datasets --> Prep --> Train --> Eval --> Use
 ```
-
-Notes:
-- This layout intentionally places nodes on four sides to form a rectangular / square visual. Multi-line labels enlarge nodes and the overall diagram.
-- If you want the rectangle to be even bigger, we can add invisible spacer nodes to increase spacing, or split pipeline steps into grouped subgraphs (I can do that if desired).
-- If you want exact styling to match architecture.md, paste that mermaid block or allow me to fetch it and I'll match fonts/colors precisely.
-
-If you want, I can:
-- Add spacer nodes to make the rectangle physically larger on render.
-- Produce a second diagram that isolates Voice Quality Factors in a separate large panel.
