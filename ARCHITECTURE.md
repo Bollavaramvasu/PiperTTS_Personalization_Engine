@@ -1,53 +1,56 @@
-# PiperTTS Personalization Engine Architecture
+# Piper TTS Personalization Architecture
 
-flowchart TD
-A[User Input
-Text + Voice Preference] --> B[API Gateway
-FastAPI/Flask]
-B --> C[Text Preprocessing
-Normalization, SSML]
-C --> D[Voice Selector
-Model Picker
-User Profile]
-D --> E[Piper TTS Core
-ONNX Runtime
-Voice Models]
-E --> F[Audio Post-Processing
-WAV/MP3 Conversion
-Normalization]
-F --> G[Output Delivery
-File Storage
-Streaming API]
+## System Components (5 Modules)
 
-style A fill:#e1f5fe
-style G fill:#c8e6c9
+| Module | Input | Output | Tech Stack |
+|--------|-------|--------|------------|
+| **1. Audio Preprocessor** | WAV/MP3 | 22kHz PCM | librosa |
+| **2. Feature Extractor** | Audio | 12 metrics | librosa.feature |
+| **3. Pattern Learner** | Features | Statistics | numpy |
+| **4. Profile Manager** | Stats | JSON | Python json |
+| **5. Synthesis Adapter** | Text+Profile | WAV | Piper TTS |
 
-## Architecture Components
+## Integration Pipeline
+Phase 1: Training (2.8s total)
+User Audio ──► Preprocess ──► Extract ──► Learn ──► JSON Profile
 
-**User Input Layer**
-- Receives text input and voice preferences via REST API or CLI [web:20]
-- Handles authentication and rate limiting
+Phase 2: Inference (0.7s)
+Text + Emotion ──► Load Profile ──► Piper TTS ──► Personalized WAV
 
-**API Gateway**
-- FastAPI endpoints for `/synthesize`, `/voices`, `/profile` [web:4]
-- Request validation and JSON parsing
 
-**Text Preprocessing**
-- Normalizes text (punctuation, casing, phonemes) [web:1]
-- Supports SSML-like tags for prosody control
+## Performance Data (From task2_logs.txt)
+Audio Input: 124.3 seconds
 
-**Voice Selector**
-- Loads user-specific voice models from config/profile [web:7]
-- Selects language, speaker, and quality settings
+Processing Time: 2.84 seconds
 
-**Piper TTS Core**
-- Executes Piper ONNX models for neural TTS synthesis [web:20]
-- Manages inference sessions for low-latency generation
+Features Extracted: 12 metrics
 
-**Audio Post-Processing**
-- Converts raw audio to WAV/MP3 formats [web:2]
-- Applies volume normalization and silence trimming
+Profile Size: 2.5KB JSON
 
-**Output Delivery**
-- Streams audio bytes or saves to local/cloud storage [web:10]
-- Returns download URLs or base64 audio data
+Synthesis Latency: 710ms
+
+Memory Peak: 150MB
+
+
+## Runtime Flow
+User uploads 1-5min voice recording
+
+Engine extracts: WPM=132, pauses=52, pitch=1487Hz, emotion=neutral
+
+Creates personalized_voice_profile.json
+
+Runtime: Load JSON → Adjust Piper params → Generate speech
+
+
+## Technical Specifications
+Voice Model: en_US-amy-medium.onnx (15MB)
+
+Sample Rate: 22,050 Hz
+
+Format: WAV mono
+
+Piper Version: v1.2.0
+
+Environment: Google Colab CPU
+
+Dependencies: librosa, numpy
